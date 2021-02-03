@@ -11,6 +11,18 @@ import Rank from "./components/Rank/Rank.component"
 
 
 class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      searchField: "",
+    }
+  }
+
+  onImageLinkFormChange = (event) => {
+    this.setState({searchField: event.target.value})
+  } 
+
   render() {
     const particlesOptions = {
       particles: {
@@ -23,7 +35,6 @@ class App extends Component {
         }
       }
     }
-    
 
     return (
       <div className = "App">
@@ -33,11 +44,11 @@ class App extends Component {
         <Navigation />
         <Logo />
         <Rank />
-        <ImageLinkForm />
+        <ImageLinkForm imageLinkFormChange = {this.onImageLinkFormChange}/>
         {/* <FaceRecognition /> */}
       </div>
     )
-  }
+  };
 }
 
 export default App;
