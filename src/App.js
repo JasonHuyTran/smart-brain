@@ -11,6 +11,7 @@ import Logo from "./components/Logo/Logo.components"
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm.components"
 import Rank from "./components/Rank/Rank.component"
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition.component"
+import Signin from "./components/Signin/Signin.component"
 
 
 class App extends Component {
@@ -83,6 +84,7 @@ class App extends Component {
               params={particlesOptions}
             />
         <Navigation />
+        <Signin />
         <Logo />
         <Rank />
         <ImageLinkForm imageLinkFormChange = {this.onImageLinkFormChange} submit = {this.onSubmit}/>
