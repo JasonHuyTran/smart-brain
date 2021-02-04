@@ -19,8 +19,28 @@ class App extends Component {
 
     this.state = {
       searchField: "",
-      imageUrl: ''
+      imageUrl: '',
+      box: {}
     }
+  }
+
+  calculateFaceLocation = (data) => {
+    console.log(data.outputs[0].data.regions);
+    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.querySelector("#inputimage")
+    const width = Number(image.width);
+    const height = Number(image.height);
+    
+    return {
+      leftCol: clarifaiFace.left_col * width,
+      topRow: clarifaiFace.top_row * height,
+      rightCol: width - (clarifaiFace.right_col * width),
+      bottomRow: height - (clarifaiFace.bottom_row * height)
+    }
+  }
+
+  displayFaceBox = (box) => {
+    this.setState({box: box});
   }
 
   onImageLinkFormChange = (event) => {
@@ -31,17 +51,12 @@ class App extends Component {
     this.setState({imageUrl: this.state.searchField});
 
     apiKey.models
-     .predict(
+     .predict (
      Clarifai.FACE_DETECT_MODEL,
-     // THE JPG
      this.state.searchField
      )
-     .then((response) => {
-      console.log(response);
-     })
-     .catch((err) => {
-      console.log(err);
-     });
+     .then(response =>  this.displayFaceBox(this.calculateFaceLocation(response)))
+     .catch((err) => console.log(err));
   };    
 
   render() {
@@ -66,10 +81,12 @@ class App extends Component {
         <Logo />
         <Rank />
         <ImageLinkForm imageLinkFormChange = {this.onImageLinkFormChange} submit = {this.onSubmit}/>
-        <FaceRecognition imageUrl = {this.state.imageUrl}/>
+        <FaceRecognition box = {this.state.box} imageUrl = {this.state.imageUrl}/>
       </div>
     )
   };
 }
 
 export default App;
+
+//test face: https://i2-prod.mirror.co.uk/incoming/article14334083.ece/ALTERNATES/s615/3_Beautiful-girl-with-a-gentle-smile.jpg

@@ -5,6 +5,7 @@ const ImageLinkForm = ({imageLinkFormChange, submit}) => {
         <div>
             <p className = 'f3'>
                 {'This Magic Brain will detect faces in your pictures. Give it a try!'}
+                {" example url: https://i2-prod.mirror.co.uk/incoming/article14334083.ece/ALTERNATES/s615/3_Beautiful-girl-with-a-gentle-smile.jpg"}
             </p>
             <div className = "center">
                 <div className = 'center pa4 br3 shadow-5 form'> 
