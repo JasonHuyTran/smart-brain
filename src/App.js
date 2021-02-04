@@ -3,16 +3,15 @@ import './App.css';
 import 'tachyons'
 import Particles from 'react-particles-js';
 import Clarifai from 'clarifai'
+import apiKey from "./apikey"
  
 
 import Navigation from "./components/Navigation/Navigation.components"
 import Logo from "./components/Logo/Logo.components"
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm.components"
 import Rank from "./components/Rank/Rank.component"
+import FaceRecognition from "./components/FaceRecognition/FaceRecognition.component"
 
-const app = new Clarifai.App({
-  apiKey: "e00be534dce74eadb42b6cc32fed1876",
- });
 
 class App extends Component {
   constructor() {
@@ -20,6 +19,7 @@ class App extends Component {
 
     this.state = {
       searchField: "",
+      imageUrl: ''
     }
   }
 
@@ -28,12 +28,13 @@ class App extends Component {
   } 
 
   onSubmit = () => {
-    console.log("click");
-    app.models
+    this.setState({imageUrl: this.state.searchField});
+
+    apiKey.models
      .predict(
      Clarifai.FACE_DETECT_MODEL,
      // THE JPG
-     "https://i.insider.com/5d321d4ea209d3146d650b4a?width=1100&format=jpeg&auto=webp"
+     this.state.searchField
      )
      .then((response) => {
       console.log(response);
@@ -65,13 +66,10 @@ class App extends Component {
         <Logo />
         <Rank />
         <ImageLinkForm imageLinkFormChange = {this.onImageLinkFormChange} submit = {this.onSubmit}/>
-        {/* <FaceRecognition /> */}
+        <FaceRecognition imageUrl = {this.state.imageUrl}/>
       </div>
     )
   };
 }
 
 export default App;
-
-
-//e00be534dce74eadb42b6cc32fed1876 our own api key 
